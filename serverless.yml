@@ -1,0 +1,50 @@
+service:
+  name: mail-forwarder-sns
+
+plugins:
+  - serverless-webpack
+
+custom:
+  topicName: 'mail-forwarder-${self:provider.stage}'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'sns'}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ses:SendEmail
+        - ses:SendRawEmail
+      Resource: "*"
+  environment:
+    to_address: ${file(./config.yml):to}
+
+functions:
+  forwarder:
+    handler: index.handler
+    events:
+      - sns:
+          arn: !Ref MailSNSTopic
+          topicName: ${self:custom.topicName}
+
+resources:
+  Resources:
+    MailSNSTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${self:custom.topicName}
+    MailRuleSet:
+      Type: AWS::SES::ReceiptRuleSet
+    MailRule:
+      Type: AWS::SES::ReceiptRule
+      Properties:
+        Rule:
+          Actions:
+            - SNSAction:
+                Encoding: UTF-8
+                TopicArn: !Ref MailSNSTopic
+          Enabled: true
+          Recipients: ${file(./config.yml):recipients}
+          ScanEnabled: true
+        RuleSetName: !Ref MailRuleSet

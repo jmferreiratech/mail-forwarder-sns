@@ -1,0 +1,5 @@
+to: 'john.doe@example.com'
+recipients:
+  - 'contact@mydomain.com'
+  - 'sales@mydomain.com'
+  - 'john@mydomain.com'
