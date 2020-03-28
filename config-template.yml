@@ -1,0 +1,5 @@
+stage-name:
+  to: 'receiver@domain.com'
+  recipients:
+    - 'contact@domain.com'
+    - 'sales@domain.com'
