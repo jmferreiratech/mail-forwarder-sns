@@ -6,7 +6,7 @@
   "author": "Marcelo Ferreira <marcelo.ferreira@trincatech.com.br>",
   "license": "MIT",
   "engines": {
-    "node": "12.*"
+    "node": "18.*"
   },
   "scripts": {
     "sls": "sls",
@@ -15,13 +15,8 @@
   },
   "devDependencies": {
     "aws-sdk": "^2.558.0",
-    "babel-core": "^6.25.0",
-    "babel-loader": "^7.1.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-polyfill": "^6.23.0",
-    "babel-preset-env": "^1.6.0",
-    "serverless": "^1.61.2",
-    "serverless-webpack": "^5.3.1",
-    "webpack": "^4.35.2"
+    "esbuild": "^0.21.5",
+    "serverless": "^3.25.0",
+    "serverless-esbuild": "^1.52.1"
   }
 }

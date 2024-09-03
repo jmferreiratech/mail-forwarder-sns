@@ -1,15 +1,22 @@
-service:
-  name: mail-forwarder-sns
+service: mail-forwarder-sns
 
 plugins:
-  - serverless-webpack
+  - serverless-esbuild
 
 custom:
   topicName: 'mail-forwarder-${self:provider.stage}'
+  esbuild:
+    packager: yarn
+    minify: true
+    sourcemap: true
+    concurrency: 3
+    zipConcurrency: 3
+    nativeZip: true
+    exclude: ['@aws-sdk/*']
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs18.x
   stage: ${opt:stage, 'sns'}
   iamRoleStatements:
     - Effect: Allow
